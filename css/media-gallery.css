@@ -3,6 +3,11 @@
 	line-height: 30px;
 }
 
+.callout_fields .btx_media_gallery_footer .button {
+	font-size: 12px;
+	padding: 0 10px;
+}
+
 .btx_media_gallery_footer .button .icon_small {
 	margin-top: 6px;
 }

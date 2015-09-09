@@ -47,6 +47,13 @@
 
 	// Matrix expects this to be encoded
 	$field["options"] = json_encode($field["options"]);
+	
+	// Ensure that the columns is an array
+	if (!is_array($_POST["columns"])) {
+		$_POST["columns"] = array();
+	}
+
+	// Add our media field
 	array_unshift($_POST["columns"],$field);
 
 	// Do a funky thing to change the ID of columns so we can retrieve data easier for processing

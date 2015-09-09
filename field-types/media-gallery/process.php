@@ -7,6 +7,13 @@
 		"saved_file_data" => $bigtree["file_data"]
 	);
 
+	// Find things that are strictly file based inputs and make a phantom entry in the POST so we don't miss it
+	foreach ($matrix["field"]["file_input"] as $number => $data) {
+		if (!isset($matrix["field"]["input"][$number])) {
+			$matrix["field"]["input"][$number] = array();
+		}
+	}
+
 	if (count($matrix["field"]["input"])) {
 		foreach ($matrix["field"]["input"] as $number => $data) {
 			// Make sure something has been entered
@@ -58,7 +65,7 @@
 				}
 
 				// Handle all the additional columns
-				foreach ($matrix["field"]["options"]["columns"] as $resource) {
+				foreach (array_filter((array)$matrix["field"]["options"]["columns"]) as $resource) {
 					$options = @json_decode($resource["options"],true);
 					$options = is_array($options) ? $options : array();
 

@@ -63,12 +63,14 @@
 	</footer>
 
 	<script>
-		BTXMediaGallery({
-			selector: "#<?=$field["id"]?>",
-			key: "<?=$field["key"]?>",
-			columns: <?=json_encode($field["options"]["columns"])?>,
-			options: <?=json_encode($options)?>,
-			max: <?=$max?>
+		BigTree.hookReady(function() {
+			BTXMediaGallery({
+				selector: "#<?=$field["id"]?>",
+				key: "<?=$field["key"]?>",
+				columns: <?=json_encode($field["options"]["columns"])?>,
+				options: <?=json_encode($options)?>,
+				max: <?=$max?>
+			});
 		});
 	</script>
 </div>
