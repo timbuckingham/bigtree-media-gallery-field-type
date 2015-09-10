@@ -129,9 +129,9 @@ var BTXMediaGallery = function(settings) {
 				entry.find("figure").append(img);
 			} else {
 				if (Type == "vimeo") {
-					var klass = "fastspot_media_gallery_vimeo_block";
+					var klass = "btx_media_gallery_vimeo_block";
 				} else if (Type == "youtube") {
-					var klass = "fastspot_media_gallery_youtube_block";
+					var klass = "btx_media_gallery_youtube_block";
 				} else {
 					var klass = "";
 				}
