@@ -35,7 +35,7 @@
 					);
 					$field["options"]["image"] = true;
 					$output = BigTreeAdmin::processField($field);
-					if (!is_null($output)) {
+					if ($output) {
 						$bigtree["entry"]["type"] = "photo";
 						$bigtree["entry"]["image"] = $output;
 					}
@@ -52,7 +52,7 @@
 						"ignore" => false
 					);
 					$output = BigTreeAdmin::processField($field);
-					if (!is_null($output)) {
+					if ($output) {
 						$bigtree["entry"]["type"] = "video";
 						$bigtree["entry"]["image"] = $output["image"];
 						unset($output["image"]);
@@ -64,39 +64,43 @@
 					$bigtree["entry"] = $data;
 				}
 
-				// Handle all the additional columns
-				foreach (array_filter((array)$matrix["field"]["options"]["columns"]) as $resource) {
-					$options = @json_decode($resource["options"],true);
-					$options = is_array($options) ? $options : array();
-
-					$field = array(
-						"type" => $resource["type"],
-						"title" => $resource["title"],
-						"key" => $resource["id"],
-						"options" => $options,
-						"ignore" => false,
-						"input" => $bigtree["post_data"][$resource["id"]],
-						"file_input" => $bigtree["file_data"][$resource["id"]]
-					);
-	
-					if (empty($field["options"]["directory"])) {
-						$field["options"]["directory"] = "files/pages/";
-					}
+				// Only run the rest if we successfully processed a video or photo
+				if (array_filter((array)$bigtree["entry"])) {
 					
-					// If we JSON encoded this data and it hasn't changed we need to decode it or the parser will fail.
-					if (is_string($field["input"]) && is_array(json_decode($field["input"],true))) {
-						$field["input"] = json_decode($field["input"],true);
+					// Handle all the additional columns
+					foreach (array_filter((array)$matrix["field"]["options"]["columns"]) as $resource) {
+						$options = @json_decode($resource["options"],true);
+						$options = is_array($options) ? $options : array();
+	
+						$field = array(
+							"type" => $resource["type"],
+							"title" => $resource["title"],
+							"key" => $resource["id"],
+							"options" => $options,
+							"ignore" => false,
+							"input" => $bigtree["post_data"][$resource["id"]],
+							"file_input" => $bigtree["file_data"][$resource["id"]]
+						);
+		
+						if (empty($field["options"]["directory"])) {
+							$field["options"]["directory"] = "files/pages/";
+						}
+						
+						// If we JSON encoded this data and it hasn't changed we need to decode it or the parser will fail.
+						if (is_string($field["input"]) && is_array(json_decode($field["input"],true))) {
+							$field["input"] = json_decode($field["input"],true);
+						}
+		
+						// Process the input
+						$output = BigTreeAdmin::processField($field);
+						if (!is_null($output)) {
+							$bigtree["entry"]["info"][$field["key"]] = $output;
+						}
 					}
 	
-					// Process the input
-					$output = BigTreeAdmin::processField($field);
-					if (!is_null($output)) {
-						$bigtree["entry"]["info"][$field["key"]] = $output;
-					}
+	
+					$matrix["data"][] = $bigtree["entry"];
 				}
-
-
-				$matrix["data"][] = $bigtree["entry"];
 			}
 		}
 	}
