@@ -56,11 +56,15 @@
 	// Add our media field
 	array_unshift($_POST["columns"],$field);
 
-	// Do a funky thing to change the ID of columns so we can retrieve data easier for processing
-	foreach ($_POST["columns"] as &$column) {
-		$column["id"] = "info][".$column["id"];
+	// Ensure all of our columns are real
+	$clean_columns = array();
+	foreach ($_POST["columns"] as $column) {
+		if ($column["id"]) {
+			$column["id"] = "info][".$column["id"];
+			$clean_columns[] = $column;
+		}
 	}
-	unset($column);
+	$_POST["columns"] = $clean_columns;
 
 	include SERVER_ROOT."core/admin/ajax/matrix-field.php";
 ?>
