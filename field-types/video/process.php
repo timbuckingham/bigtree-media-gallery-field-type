@@ -11,6 +11,20 @@
 		If you intend to allow HTML tags you will want to run htmlspecialchars in your drawing file on your value and leave it off in the process file.
 	*/
 
+	// Grab any min width/heights from prefixes
+	if (!empty($field["options"]["preset"])) {
+		if (!isset($bigtree["media_settings"])) {
+			$bigtree["media_settings"] = $cms->getSetting("bigtree-internal-media-settings");
+		}
+		$preset = $bigtree["media_settings"]["presets"][$field["options"]["preset"]];
+		if (!empty($preset["min_width"])) {
+			$field["options"]["min_width"] = $preset["min_width"];
+		}
+		if (!empty($preset["min_height"])) {
+			$field["options"]["min_height"] = $preset["min_height"];
+		}
+	}
+
 	// Setup minimum image width/height
 	$min_width = empty($field["options"]["min_width"]) ? 0 : intval($field["options"]["min_width"]);
 	$min_height = empty($field["options"]["min_height"]) ? 0 : intval($field["options"]["min_height"]);

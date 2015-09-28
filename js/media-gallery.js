@@ -80,6 +80,9 @@ var BTXMediaGallery = function(settings) {
 		function editItem(e) {
 			e.preventDefault();
 
+			Type = $(this).data("type");
+			console.log(Type);
+
 			// Prevent double clicks
 			if (BigTree.Busy) {
 				return;
@@ -125,8 +128,10 @@ var BTXMediaGallery = function(settings) {
 			
 			// Try to get an image preview but fallback to the old upload message
 			var img = LastDialog.find("fieldset").first().find("img");
-			if (img.length) {
+			if (Type == "image" && img.length) {
 				entry.find("figure").append(img);
+			} else if (img.length) {
+				entry.find("figure").append(img).addClass("btx_media_gallery_type_" + Type);
 			} else {
 				if (Type == "vimeo") {
 					var klass = "btx_media_gallery_vimeo_block";

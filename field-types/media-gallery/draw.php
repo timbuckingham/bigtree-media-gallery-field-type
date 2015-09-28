@@ -14,6 +14,12 @@
 	<ul>
 		<?php
 			foreach ($items as $item) {
+				if ($item["type"] == "video") {
+					$type = $item["video"]["service"];
+				} else {
+					$type = "image";
+				}
+
 				if ($field["options"]["preview_prefix"]) {
 					$preview_image = BigTree::prefixFile($item["image"],$field["options"]["preview_prefix"]);
 				} else {
@@ -26,7 +32,7 @@
 			</figure>
 			<input type="hidden" class="bigtree_matrix_data" value="<?=base64_encode(json_encode($item))?>" />
 			<? BigTreeAdmin::drawArrayLevel(array($current),$item) ?>
-			<a href="#" class="icon_edit"></a>
+			<a href="#" class="icon_edit" data-type="<?=$type?>"></a>
 			<a href="#" class="icon_delete"></a>
 		</li>
 		<?php
