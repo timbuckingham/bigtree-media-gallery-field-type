@@ -81,7 +81,6 @@ var BTXMediaGallery = function(settings) {
 			e.preventDefault();
 
 			Type = $(this).data("type");
-			console.log(Type);
 
 			// Prevent double clicks
 			if (BigTree.Busy) {
@@ -127,7 +126,7 @@ var BTXMediaGallery = function(settings) {
 			var entry = $('<li>').html('<figure></figure><a href="#" class="icon_delete"></a>');
 			
 			// Try to get an image preview but fallback to the old upload message
-			var img = LastDialog.find("fieldset").first().find("img");
+			var img = LastDialog.find("fieldset").first().find("img").eq(0);
 			if (Type == "image" && img.length) {
 				entry.find("figure").append(img);
 			} else if (img.length) {
@@ -140,7 +139,7 @@ var BTXMediaGallery = function(settings) {
 				} else {
 					var klass = "";
 				}
-				entry.find("figure").append('<figcaption class="' + klass + '">Awaiting Upload</figcaption>');
+				entry.find("figure").append('<figcaption class="' + klass + '"></figcaption>');
 			}
 	
 			// Append all the relevant fields into the matrix field so that it gets saved on submit with the rest of the form.

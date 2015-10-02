@@ -9,7 +9,7 @@
 		$type = $origin_data["type"];
 		$data = $origin_data["info"];
 
-		if ($type == "image") {
+		if ($type == "photo") {
 			$data["*photo"] = $origin_data["image"];
 		} else {
 			$data["*video"]= $origin_data["video"];
@@ -23,14 +23,15 @@
 		}
 
 		$_POST["data"] = base64_encode(json_encode($weird_data));
-	}	
+	}
+
 
 	if ($type == "photo") {
 		$field = array(
 			"id" => "*photo",
 			"type" => "upload",
 			"title" => "Photo",
-			"options" => $options
+			"options" => array_merge(array("image" => "on"),$options)
 		);
 		if ($options["min_width"] && $options["min_height"]) {
 			$field["subtitle"] = "(min ".$options["min_width"]."x".$options["min_height"].")";
