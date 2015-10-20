@@ -3,6 +3,20 @@
 	$options["validation"] = "required";
 	$type = $_POST["type"];
 
+	// If we're using a preset, the prefix may be there
+	if (!empty($options["preset"])) {
+		if (!isset($bigtree["media_settings"])) {
+			$bigtree["media_settings"] = $cms->getSetting("bigtree-internal-media-settings");
+		}
+		$preset = $bigtree["media_settings"]["presets"][$options["preset"]];
+		if (!empty($preset["min_width"])) {
+			$options["min_width"] = $preset["min_width"];
+		}
+		if (!empty($preset["min_height"])) {
+			$options["min_height"] = $preset["min_height"];
+		}
+	}
+
 	// We're going to fake post data here so it includes properly in the form
 	if (isset($_POST["data"])) {
 		$origin_data = json_decode(base64_decode($_POST["data"]),true);
