@@ -31,7 +31,7 @@
 				<img src="<?=$preview_image?>" alt="" />
 			</figure>
 			<input type="hidden" class="bigtree_matrix_data" value="<?=base64_encode(json_encode($item))?>" />
-			<? BigTreeAdmin::drawArrayLevel(array($current),$item) ?>
+			<? BigTreeAdmin::drawArrayLevel(array($current),$item,$field) ?>
 			<a href="#" class="icon_edit" data-type="<?=$type?>"></a>
 			<a href="#" class="icon_delete"></a>
 		</li>
