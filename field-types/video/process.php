@@ -149,8 +149,15 @@
 
 	// Using existing value
 	} else {
+		// Directly in the form, unchanged
 		if ($field["input"]["existing"]) {
 			$field["output"] = json_decode($field["input"]["existing"],true);
+
+		// For when use in a callout or matrix and unchanged
+		} elseif ($field["input"]["service"] && $field["input"]["id"]) {
+			$field["output"] = $field["input"];
+		
+		// Wiped
 		} else {
 			$field["ignore"] = true;
 		}
