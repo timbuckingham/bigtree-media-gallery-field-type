@@ -27,11 +27,11 @@
 				}
 		?>
 		<li>
-			<figure<? if ($item["type"] == "video") { ?> class="btx_media_gallery_type_<?=$item["video"]["service"]?>"<? } ?>>
+			<figure<?php if ($item["type"] == "video") { ?> class="btx_media_gallery_type_<?=$item["video"]["service"]?>"<?php } ?>>
 				<img src="<?=$preview_image?>" alt="" />
 			</figure>
 			<input type="hidden" class="bigtree_matrix_data" value="<?=base64_encode(json_encode($item))?>" />
-			<? BigTreeAdmin::drawArrayLevel(array($current),$item,$field) ?>
+			<?php BigTreeAdmin::drawArrayLevel(array($current),$item,$field) ?>
 			<a href="#" class="icon_edit" data-type="<?=$type?>"></a>
 			<a href="#" class="icon_delete"></a>
 		</li>
@@ -57,6 +57,12 @@
 			if (!$field["options"]["disable_vimeo"]) {
 		?>
 		<a href="#" class="add_item button" data-type="vimeo"><span class="icon_small vimeo_icon"></span>Add Vimeo Video</a>
+		<?php
+			}
+
+			if ($field["options"]["enable_manual"]) {
+		?>
+		<a href="#" class="add_item button" data-type="video"><span class="icon_small icon_small_video"></span>Add Manual Video</a>
 		<?php
 			}
 

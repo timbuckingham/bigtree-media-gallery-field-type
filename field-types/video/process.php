@@ -1,4 +1,4 @@
-<?
+<?php
 	/*
 		When processing a field type you are provided with the $field array with the following keys:
 			"key" — The key of the field (this could be the database column for a module or the ID of the template or callout resource)
@@ -16,10 +16,13 @@
 		if (!isset($bigtree["media_settings"])) {
 			$bigtree["media_settings"] = $cms->getSetting("bigtree-internal-media-settings");
 		}
+
 		$preset = $bigtree["media_settings"]["presets"][$field["options"]["preset"]];
+		
 		if (!empty($preset["min_width"])) {
 			$field["options"]["min_width"] = $preset["min_width"];
 		}
+		
 		if (!empty($preset["min_height"])) {
 			$field["options"]["min_height"] = $preset["min_height"];
 		}
@@ -162,4 +165,3 @@
 			$field["ignore"] = true;
 		}
 	}
-?>

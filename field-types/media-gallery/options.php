@@ -10,16 +10,20 @@
 	<input type="text" name="max" value="<?=$data["max"]?>" />
 </fieldset>
 <fieldset>
-	<input type="checkbox" name="disable_photos" <? if ($data["disable_photos"]) { ?>checked="checked" <? } ?> />
+	<input type="checkbox" name="disable_photos" <?php if ($data["disable_photos"]) { ?>checked="checked" <?php } ?>/>
 	<label class="for_checkbox">Disable Photos</label>
 </fieldset>
 <fieldset>
-	<input type="checkbox" name="disable_youtube" <? if ($data["disable_youtube"]) { ?>checked="checked" <? } ?> />
+	<input type="checkbox" name="disable_youtube" <?php if ($data["disable_youtube"]) { ?>checked="checked" <?php } ?>/>
 	<label class="for_checkbox">Disable YouTube Videos</label>
 </fieldset>
 <fieldset>
-	<input type="checkbox" name="disable_vimeo" <? if ($data["disable_vimeo"]) { ?>checked="checked" <? } ?> />
+	<input type="checkbox" name="disable_vimeo" <?php if ($data["disable_vimeo"]) { ?>checked="checked" <?php } ?>/>
 	<label class="for_checkbox">Disable Vimeo Videos</label>
+</fieldset>
+<fieldset>
+	<input type="checkbox" name="enable_manual" <?php if ($data["enable_manual"]) { ?>checked="checked" <?php } ?>/>
+	<label class="for_checkbox"><strong>Enable</strong> Manually Uploaded Videos</label>
 </fieldset>
 <hr />
 <h3>Image Options</h3>
@@ -35,8 +39,9 @@
 	<span class="icon_small icon_small_add matrix_add_column"></span>
 	<h3>Additional Fields</h3>
 	<section class="matrix_table">
-		<?
+		<?php
 			$x = 0;
+
 			foreach ($columns as $column) {
 				$x++;
 		?>
@@ -44,17 +49,17 @@
 			<div>
 				<select name="columns[][type]">
 					<optgroup label="Default">
-						<? foreach ($types["default"] as $k => $v) { ?>
-						<option value="<?=$k?>"<? if ($k == $column["type"]) { ?> selected="selected"<? } ?>><?=$v["name"]?></option>
-						<? } ?>
+						<?php foreach ($types["default"] as $k => $v) { ?>
+						<option value="<?=$k?>"<?php if ($k == $column["type"]) { ?> selected="selected"<?php } ?>><?=$v["name"]?></option>
+						<?php } ?>
 					</optgroup>
-					<? if (count($types["custom"])) { ?>
+					<?php if (count($types["custom"])) { ?>
 					<optgroup label="Custom">
-						<? foreach ($types["custom"] as $k => $v) { ?>
-						<option value="<?=$k?>"<? if ($k == $column["type"]) { ?> selected="selected"<? } ?>><?=$v["name"]?></option>
-						<? } ?>
+						<?php foreach ($types["custom"] as $k => $v) { ?>
+						<option value="<?=$k?>"<?php if ($k == $column["type"]) { ?> selected="selected"<?php } ?>><?=$v["name"]?></option>
+						<?php } ?>
 					</optgroup>
-					<? } ?>
+					<?php } ?>
 				</select>		
 				<input type="text" name="columns[][id]" value="<?=htmlspecialchars($column["id"])?>" placeholder="ID" />
 				<input type="text" name="columns[][title]" value="<?=htmlspecialchars($column["title"])?>" placeholder="Title" />
@@ -67,7 +72,7 @@
 				<input type="hidden" name="columns[][options]" value="<?=htmlspecialchars($column["options"])?>" />
 			</footer>
 		</article>
-		<?
+		<?php
 			}
 		?>
 	</section>
@@ -113,7 +118,7 @@
 		$(".bigtree_dialog_window").last().find(".matrix_add_column").click(function() {
 			ColumnCount++;
 			
-			var item = $('<article>').html('<div><select name="columns[' + ColumnCount + '][type]"><optgroup label="Default"><? foreach ($types["default"] as $k => $v) { ?><option value="<?=$k?>"><?=$v["name"]?></option><? } ?></optgroup><? if (count($types["custom"])) { ?><optgroup label="Custom"><? foreach ($types["custom"] as $k => $v) { ?><option value="<?=$k?>"><?=$v["name"]?></option><? } ?></optgroup><? } ?></select>' +
+			var item = $('<article>').html('<div><select name="columns[' + ColumnCount + '][type]"><optgroup label="Default"><?php foreach ($types["default"] as $k => $v) { ?><option value="<?=$k?>"><?=$v["name"]?></option><?php } ?></optgroup><?php if (count($types["custom"])) { ?><optgroup label="Custom"><?php foreach ($types["custom"] as $k => $v) { ?><option value="<?=$k?>"><?=$v["name"]?></option><?php } ?></optgroup><?php } ?></select>' +
 										   '<input type="text" name="columns[' + ColumnCount + '][id]" value="" placeholder="ID" />' +
 										   '<input type="text" name="columns[' + ColumnCount + '][title]" value="" placeholder="Title" />' +
 										   '<input type="text" name="columns[' + ColumnCount + '][subtitle]" value="" placeholder="Subtitle" /></div>' +
