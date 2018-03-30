@@ -2,7 +2,7 @@
 	$options = $_POST["options"];
 	$options["validation"] = "required";
 	$type = $_POST["type"];
-	
+
 	// If we're using a preset, the prefix may be there
 	if (!empty($options["preset"])) {
 		if (!isset($bigtree["media_settings"])) {
@@ -29,8 +29,15 @@
 		if ($type == "photo") {
 			$data["*photo"] = $origin_data["image"];
 		} else {
-			$data["*video"] = $origin_data["video"];
-			$data["*video"]["image"] = $origin_data["image"];
+			$type = $origin_data["video"]["service"];
+
+			if ($type == "local") {
+				$data["*localvideo"] = $origin_data["video"]["url"];
+				$data["*photo"] = $origin_data["image"];
+			} else {
+				$data["*video"] = $origin_data["video"];
+				$data["*video"]["image"] = $origin_data["image"];
+			}
 		}
 		
 		// Do weird things to get the values set properly
@@ -47,7 +54,7 @@
 	if (!is_array($_POST["columns"])) {
 		$_POST["columns"] = array();
 	}
-	
+
 	if ($type == "photo") {
 		$field = array(
 			"id" => "*photo",
@@ -58,10 +65,10 @@
 		if ($options["min_width"] && $options["min_height"]) {
 			$field["subtitle"] = "(min ".$options["min_width"]."x".$options["min_height"].")";
 		}
-	} elseif ($type == "video") {
+	} elseif ($type == "local") {
 		// Stick it on early - we're giving two fields here
 		$field = array(
-			"id" => "*manualvideo",
+			"id" => "*localvideo",
 			"type" => "upload",
 			"title" => "Video",
 			"subtitle" => "(h264 file)",

@@ -1,7 +1,7 @@
 {
     "type": "extension",
     "id": "com.fastspot.media-gallery-field-type",
-    "version": "1.4.6",
+    "version": "1.5",
     "revision": 12,
     "compatibility": "4.2.7+",
     "title": "Media Gallery Field Type",

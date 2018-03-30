@@ -22,8 +22,10 @@
 				$bigtree["post_data"] = $data["info"];
 				$bigtree["file_data"] = $matrix["field"]["file_input"][$number]["info"];
 
-				// Process a photo upload
-				if ($data["info"]["*photo"] || $bigtree["file_data"]["*photo"]["tmp_name"]) {
+				// Process a manual video upload
+				if ($data["info"]["*localvideo"] || $bigtree["file_data"]["*localvideo"]["tmp_name"]) {
+					$bigtree["entry"]["type"] = "video";
+
 					$field = array(
 						"title" => "Photo",
 						"key" => "*photo",
@@ -35,6 +37,43 @@
 					);
 					$field["options"]["image"] = true;
 					$output = BigTreeAdmin::processField($field);
+
+					if ($output) {
+						$bigtree["entry"]["image"] = $output;
+					}
+
+					$field = array(
+						"title" => "Video",
+						"key" => "*localvideo",
+						"type" => "upload",
+						"input" => $bigtree["post_data"]["*localvideo"],
+						"file_input" => $bigtree["file_data"]["*localvideo"],
+						"options" => $matrix["field"]["options"],
+						"ignore" => false
+					);
+					$output = BigTreeAdmin::processField($field);
+
+					if ($output) {
+						$bigtree["entry"]["video"] = array(
+							"service" => "local",
+							"url" => $output
+						);
+					}
+
+				// Process a photo upload
+				} elseif ($data["info"]["*photo"] || $bigtree["file_data"]["*photo"]["tmp_name"]) {
+					$field = array(
+						"title" => "Photo",
+						"key" => "*photo",
+						"type" => "upload",
+						"input" => $bigtree["post_data"]["*photo"],
+						"file_input" => $bigtree["file_data"]["*photo"],
+						"options" => $matrix["field"]["options"],
+						"ignore" => false
+					);
+					$field["options"]["image"] = true;
+					$output = BigTreeAdmin::processField($field);
+
 					if ($output) {
 						$bigtree["entry"]["type"] = "photo";
 						$bigtree["entry"]["image"] = $output;
@@ -52,6 +91,7 @@
 						"ignore" => false
 					);
 					$output = BigTreeAdmin::processField($field);
+
 					if ($output) {
 						$bigtree["entry"]["type"] = "video";
 						$bigtree["entry"]["image"] = $output["image"];
@@ -93,6 +133,7 @@
 		
 						// Process the input
 						$output = BigTreeAdmin::processField($field);
+
 						if (!is_null($output)) {
 							$bigtree["entry"]["info"][$field["key"]] = $output;
 						}

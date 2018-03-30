@@ -62,7 +62,7 @@
 
 			if ($field["options"]["enable_manual"]) {
 		?>
-		<a href="#" class="add_item button" data-type="video"><span class="icon_small icon_small_video"></span>Add Manual Video</a>
+		<a href="#" class="add_item button" data-type="video"><span class="icon_small icon_small_video"></span>Add Local Video</a>
 		<?php
 			}
 
